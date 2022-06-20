@@ -10,6 +10,8 @@ python-crontab = "*"
 black = "*"
 isort = "*"
 flake8 = "*"
+colorama = "*"
+shellingham = "*"
 
 [dev-packages]
 
