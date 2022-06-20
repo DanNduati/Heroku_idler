@@ -41,12 +41,12 @@ class StorageHandler:
                 except json.JSONDecodeError:
                     return StorageResponse([].JSON_ERROR)
         except OSError:
-            return([],DB_READ_ERROR)
-        
-    def write_urls(self,url_list:List[Dict[str,Any]]) -> StorageResponse:
+            return ([], DB_READ_ERROR)
+
+    def write_urls(self, url_list: List[Dict[str, Any]]) -> StorageResponse:
         try:
             with self._db_path.open("w") as db:
-                json.dump(url_list,db,indent=4)
-            return StorageResponse(url_list,SUCCESS)
+                json.dump(url_list, db, indent=4)
+            return StorageResponse(url_list, SUCCESS)
         except OSError:
-            return StorageResponse([],DB_WRITE_ERROR)
+            return StorageResponse([], DB_WRITE_ERROR)
