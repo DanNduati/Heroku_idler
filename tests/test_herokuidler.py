@@ -32,14 +32,20 @@ def mock_json_file(tmp_path):
 
 test_data1 = {
     "url": "https://gentle-dusk-50795.herokuapp.com/ping",
+    "url_returned": {"url": "https://gentle-dusk-50795.herokuapp.com/ping"},
 }
 test_data2 = {
-    "url": "https://fastapi-dan.herokuapp.com/",
+    "url": "https://gentle-dusk-50795.herokuapp.com/ping",
+    "url_returned": {"url": "https://gentle-dusk-50795.herokuapp.com/ping"},
 }
 
 
-def test_add(mock_json_file):
+@pytest.mark.parametrize(
+    "url,expected",
+    [pytest.param(test_data1["url"], (test_data1["url_returned"], SUCCESS))],
+)
+def test_add(mock_json_file, url, expected):
     url_adder = herokuidler.UrlController(mock_json_file)
-    assert url_adder.add(test_data1) == expected
+    assert url_adder.add(url) == expected
     read = url_adder._storage_handler.read_urls()
     assert len(read) == 2
