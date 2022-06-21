@@ -6,12 +6,12 @@ name = "pypi"
 [packages]
 typer = "*"
 pytest = "*"
-python-crontab = "*"
 black = "*"
 isort = "*"
 flake8 = "*"
 colorama = "*"
 shellingham = "*"
+requests = "*"
 
 [dev-packages]
 pylint = "*"
