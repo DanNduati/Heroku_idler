@@ -25,7 +25,7 @@ def init_database(db_path: Path) -> int:
 
 
 class StorageResponse(NamedTuple):
-    url_list: List[Dict[str, Any]]
+    url_list: List[str]
     error: int
 
 
@@ -37,7 +37,7 @@ class StorageHandler:
         try:
             with self._db_path.open("r") as db:
                 try:
-                    return StorageResponse(json.loads(db), SUCCESS)
+                    return StorageResponse(json.load(db), SUCCESS)
                 except json.JSONDecodeError:
                     return StorageResponse([].JSON_ERROR)
         except OSError:
