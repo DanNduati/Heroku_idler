@@ -1,7 +1,9 @@
 from pathlib import Path
 from typing import List, Optional
+from urllib import response
 from urllib.parse import urlparse
 
+import requests
 import typer
 
 from herokuidler import (  # isort:skip
@@ -80,12 +82,6 @@ def add(url: str = typer.Argument(...)) -> None:
         typer.secho(f"""URL: "{url["url"]}" was added""", fg=typer.colors.GREEN)
 
 
-def _version_callback(value: bool) -> None:
-    if value:
-        typer.echo(f"{__app_name__} v{__version__}")
-        raise typer.Exit()
-
-
 @app.command(name="list")
 def list_all() -> None:
     """List all urls"""
@@ -155,7 +151,30 @@ def remove(
             typer.echo("Operation canceled")
 
 
-@app.callback()
+@app.command()
+def ping() -> None:
+    """Ping all urls"""
+    controller = get_url()
+    url_list = controller.get_url_list()
+    if len(url_list) == 0:
+        typer.secho("There are no urls in the urls list yet", fg=typer.colors.RED)
+        raise typer.Exit()
+    for id, url in enumerate(url_list, 1):
+        with requests.Session() as session:
+            typer.secho(f"Pinging url# {id}: {url['url']}", fg=typer.colors.GREEN)
+            response = session.get(url["url"])
+            typer.secho(
+                f"{url['url']} responded with : {response.status_code}",
+                fg=typer.colors.YELLOW,
+            )
+
+
+def _version_callback(value: bool) -> None:
+    if value:
+        typer.echo(f"{__app_name__} v{__version__}")
+        raise typer.Exit()
+
+
 def main(
     version: Optional[bool] = typer.Option(
         None,
