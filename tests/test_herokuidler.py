@@ -28,3 +28,18 @@ def mock_json_file(tmp_path):
     with db_file.open("w") as db:
         json.dump(url, db, indent=4)
     return db_file
+
+
+test_data1 = {
+    "url": "https://gentle-dusk-50795.herokuapp.com/ping",
+}
+test_data2 = {
+    "url": "https://fastapi-dan.herokuapp.com/",
+}
+
+
+def test_add(mock_json_file):
+    url_adder = herokuidler.UrlController(mock_json_file)
+    assert url_adder.add(test_data1) == expected
+    read = url_adder._storage_handler.read_urls()
+    assert len(read) == 2
