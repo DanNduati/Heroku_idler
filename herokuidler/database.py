@@ -39,7 +39,7 @@ class StorageHandler:
                 try:
                     return StorageResponse(json.load(db), SUCCESS)
                 except json.JSONDecodeError:
-                    return StorageResponse([].JSON_ERROR)
+                    return StorageResponse([], JSON_ERROR)
         except OSError:
             return ([], DB_READ_ERROR)
 

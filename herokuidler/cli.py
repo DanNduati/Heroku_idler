@@ -62,6 +62,18 @@ def get_url() -> herokuidler.UrlController:
         raise typer.Exit(1)
 
 
+@app.command()
+def add(url: str = typer.Argument(...)) -> None:
+    """Add a new url"""
+    url_adder = get_url()
+    url, error = url_adder.add(url)
+    if error:
+        typer.secho(f'Adding url failed with "{ERRORS[error]}"', fg=typer.colors.RED)
+        raise typer.Exit(1)
+    else:
+        typer.secho(f"""URL: "{url["url"]}" was added""", fg=typer.colors.GREEN)
+
+
 def _version_callback(value: bool) -> None:
     if value:
         typer.echo(f"{__app_name__} v{__version__}")
