@@ -80,6 +80,27 @@ def _version_callback(value: bool) -> None:
         raise typer.Exit()
 
 
+@app.command(name="list")
+def list_all() -> None:
+    """List all urls"""
+    url_getter = get_url()
+    url_list = url_getter.get_url_list()
+    if len(url_list) == 0:
+        typer.secho("There are no urls in the urls list yet", fg=typer.colors.RED)
+        raise typer.Exit()
+    typer.secho("\nUrl list:\n", fg=typer.colors.BLUE, bold=True)
+    columns = (
+        "ID.  |",
+        "Url  ",
+    )
+    headers = "\t\t\t".join(columns)
+    typer.secho(headers, fg=typer.colors.BLUE, bold=True)
+    typer.secho("-" * len(headers), fg=typer.colors.BLUE)
+    for id, url in enumerate(url_list,1):
+        _url = url["url"]
+        typer.secho(f"{id}  {_url}",fg=typer.colors.BLUE)
+    typer.secho("-"*len(headers)+"\n",fg=typer.colors.BLUE)
+
 @app.callback()
 def main(
     version: Optional[bool] = typer.Option(

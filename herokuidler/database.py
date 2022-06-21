@@ -25,7 +25,7 @@ def init_database(db_path: Path) -> int:
 
 
 class StorageResponse(NamedTuple):
-    url_list: List[str]
+    url_list: List[Dict[str, Any]]
     error: int
 
 

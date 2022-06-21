@@ -6,7 +6,7 @@ from herokuidler.database import StorageHandler
 
 
 class CurrentUrl(NamedTuple):
-    url: List[str]
+    url: List[Dict[str, Any]]
     error: int
 
 
@@ -23,3 +23,7 @@ class UrlController:
         read.url_list.append(url)
         write = self._storage_handler.write_urls(read.url_list)
         return CurrentUrl(url, write.error)
+
+    def get_url_list(self) -> List[Dict[str, Any]]:
+        read = self._storage_handler.read_urls()
+        return read.url_list
