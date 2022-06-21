@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import List, Optional
+from urllib.parse import urlparse
 
 import typer
 
@@ -66,6 +67,11 @@ def get_url() -> herokuidler.UrlController:
 def add(url: str = typer.Argument(...)) -> None:
     """Add a new url"""
     controller = get_url()
+    # Ensure this is an actual heroku url
+    parts = urlparse(url)
+    if not "herokuapp.com" in parts.netloc:
+        typer.secho(f"Please enter a valid heroku app url.", fg=typer.colors.RED)
+        raise typer.Exit(1)
     url, error = controller.add(url)
     if error:
         typer.secho(f'Adding url failed with "{ERRORS[error]}"', fg=typer.colors.RED)
