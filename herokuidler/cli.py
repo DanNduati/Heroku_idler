@@ -1,9 +1,16 @@
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 import typer
 
-from herokuidler import ERRORS, __app_name__, __version__, config, database
+from herokuidler import (  # isort:skip
+    ERRORS,
+    __app_name__,
+    __version__,
+    config,
+    database,
+    herokuidler,
+)
 
 app = typer.Typer()
 
@@ -34,6 +41,25 @@ def init(
         raise typer.Exit(1)
     else:
         typer.secho(f"The urls json storage is {db_path}", fg=typer.colors.GREEN)
+
+
+def get_url() -> herokuidler.UrlController:
+    if config.CONFIG_FILE_PATH.exists():
+        db_path = database.get_database_path(config.CONFIG_FILE_PATH)
+    else:
+        typer.secho(
+            'Configuration file not found. Please, run "herokuidler init"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+    if db_path.exists():
+        return herokuidler.UrlController(db_path)
+    else:
+        typer.secho(
+            'Json storage file not found. Please, run "herokuidler init"',
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
 
 
 def _version_callback(value: bool) -> None:
