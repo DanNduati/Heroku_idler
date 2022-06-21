@@ -88,18 +88,27 @@ def list_all() -> None:
     if len(url_list) == 0:
         typer.secho("There are no urls in the urls list yet", fg=typer.colors.RED)
         raise typer.Exit()
-    typer.secho("\nUrl list:\n", fg=typer.colors.BLUE, bold=True)
+    typer.secho("\nUrl list:\n", fg=typer.colors.BRIGHT_YELLOW, bold=True)
     columns = (
-        "ID.  |",
-        "Url  ",
+        "ID. |",
+        " Url ",
     )
-    headers = "\t\t\t".join(columns)
-    typer.secho(headers, fg=typer.colors.BLUE, bold=True)
-    typer.secho("-" * len(headers), fg=typer.colors.BLUE)
-    for id, url in enumerate(url_list,1):
+    headers = "".join(columns)
+    typer.secho(headers, fg=typer.colors.BRIGHT_YELLOW, bold=True)
+
+    for id, url in enumerate(url_list, 1):
         _url = url["url"]
-        typer.secho(f"{id}  {_url}",fg=typer.colors.BLUE)
-    typer.secho("-"*len(headers)+"\n",fg=typer.colors.BLUE)
+        if id == 1:
+            typer.secho(
+                "-" * (len(columns[0]) + len(_url) + 1), fg=typer.colors.BRIGHT_YELLOW
+            )
+        typer.secho(
+            f"{id}{(len(columns[0]) - len(str(id))-1) * ' '}"
+            f"| {_url}{(len(columns[1]) - len(str(_url)) - 3) * ' '}",
+            fg=typer.colors.BRIGHT_YELLOW,
+        )
+    typer.secho("\n")
+
 
 @app.callback()
 def main(
