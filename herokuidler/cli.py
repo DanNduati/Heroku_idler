@@ -112,7 +112,7 @@ def list_all() -> None:
 
 @app.command()
 def remove(
-    url_id: int = typer.Argument(...),
+    url_id: int = typer.Argument(..., min=1),
     force: bool = typer.Option(
         False, "--force", "-f", help="Force deletion without confirmation"
     ),
