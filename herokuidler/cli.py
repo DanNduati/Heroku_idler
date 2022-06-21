@@ -65,8 +65,8 @@ def get_url() -> herokuidler.UrlController:
 @app.command()
 def add(url: str = typer.Argument(...)) -> None:
     """Add a new url"""
-    url_adder = get_url()
-    url, error = url_adder.add(url)
+    controller = get_url()
+    url, error = controller.add(url)
     if error:
         typer.secho(f'Adding url failed with "{ERRORS[error]}"', fg=typer.colors.RED)
         raise typer.Exit(1)
@@ -83,8 +83,8 @@ def _version_callback(value: bool) -> None:
 @app.command(name="list")
 def list_all() -> None:
     """List all urls"""
-    url_getter = get_url()
-    url_list = url_getter.get_url_list()
+    controller = get_url()
+    url_list = controller.get_url_list()
     if len(url_list) == 0:
         typer.secho("There are no urls in the urls list yet", fg=typer.colors.RED)
         raise typer.Exit()
@@ -108,6 +108,45 @@ def list_all() -> None:
             fg=typer.colors.BRIGHT_YELLOW,
         )
     typer.secho("\n")
+
+
+@app.command()
+def remove(
+    url_id: int = typer.Argument(...),
+    force: bool = typer.Option(
+        False, "--force", "-f", help="Force deletion without confirmation"
+    ),
+) -> None:
+    """Remove a url using its id"""
+    controller = get_url()
+
+    def _remove():
+        url, error = controller.remove(url_id)
+        if error:
+            typer.secho(
+                f'Removing url #{url_id} failed with "{ERRORS[error]}"',
+                fg=typer.colors.RED,
+            )
+            return typer.Exit(1)
+        else:
+            typer.secho(
+                f"""url #{url_id}: '{url["url"]}' was removed""", fg=typer.colors.GREEN
+            )
+
+    if force:
+        _remove()
+    else:
+        url_list = controller.get_url_list()
+        try:
+            url = url_list[url_id - 1]
+        except IndexError:
+            typer.secho("Invalid id", fg=typer.colors.RED)
+            raise typer.Exit(1)
+        delete = typer.confirm(f"Delete url #{url_id}: {url['url']}?")
+        if delete:
+            _remove()
+        else:
+            typer.echo("Operation canceled")
 
 
 @app.callback()
