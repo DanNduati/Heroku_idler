@@ -12,7 +12,7 @@ from herokuidler import (  # isort:skip
 )
 
 CONFIG_DIR_PATH = Path(typer.get_app_dir(__app_name__))
-CONFIG_FILE_PATH = CONFIG_DIR_PATH / "config.ini"
+CONFIG_FILE_PATH = CONFIG_DIR_PATH.joinpath("config.ini")
 
 
 def _init_config_file() -> int:
@@ -24,6 +24,7 @@ def _init_config_file() -> int:
         CONFIG_FILE_PATH.touch(exist_ok=True)
     except OSError:
         return FILE_ERROR
+    return SUCCESS
 
 
 def _create_config(db_path: str) -> int:
@@ -43,7 +44,7 @@ def init_app(db_path: str) -> int:
     config_code = _init_config_file()
     if config_code != SUCCESS:
         return config_code
-    # Add configuratins to the config file
+    # Add configurations to the config file
     config_code = _create_config(db_path)
     if config_code != SUCCESS:
         return config_code
