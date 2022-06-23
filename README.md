@@ -8,6 +8,9 @@ Heroku Idler is a python typer cli application that manages a url list of your h
 - [Python](https://www.python.org/downloads/)
 
 ## <b>Setup</b>
+<details>
+<summary>Click to expand!</summary>
+
 ### <b>Clone repository</b>
 ```bash
 $ git clone https://github.com/DanNduati/Heroku_idler.git
@@ -25,8 +28,11 @@ $ source venv/bin/activate
 # install dependencies
 $ pip install -r requirements.txt
 ```
+</details>
 
 ## <b>Usage</b>
+<details>
+<summary>Click to expand!</summary>
 
 The application provides the following commands to initialize the app,add and remove urls and ping the urls:
 
@@ -90,7 +96,12 @@ https://gentle-dusk-50795.herokuapp.com/ping responded with : 200
 Pinging url# 2: https://fastapi-dan.herokuapp.com/
 https://fastapi-dan.herokuapp.com/ responded with : 200
 ```
+</details>
+
 ## <b>Scheduling</b>
+<details>
+<summary>Click to expand!</summary>
+
 Since apps using free web dynos sleep after 30 minutes of inactivity I use the [Cron](https://en.wikipedia.org/wiki/Cron) job scheduler to run the ping cli command of the application that pings my applications every 15 minutes
 > :warning: **The cron service is only available for Unix-base systems!** checkout the windows equivalent to a cron job called a [scheduled task](https://active-directory-wp.com/docs/Usage/How_to_add_a_cron_job_on_Windows/Scheduled_tasks_and_cron_jobs_on_Windows/)
 
@@ -111,14 +122,14 @@ The crontab -e command will start a text editor on the user's crontab file, whic
 │ │ │ │ │
 * * * * *  command to execute
 ```
-To run the cli ping command every 15 minutes add this to your crontab file:
+To run the cli ping command at every 15th minute past every hour from 6am to midnight (maintain the 18 hr quota). add this to your crontab file:
 ```bash
 
-*/15 * * * * cd <path to cli application> && <path to your virtual environment python executabl> -m herokuidler ping
+*/15 6-23,0 * * * cd <path to cli application> && <path to your virtual environment python executabl> -m herokuidler ping
 ```
 In my case the worker runs on my raspberry pi it has way better uptime than my laptop :):
 ```bash
-*/15 * * * * cd /home/pi/Desktop/heroku_idler && /home/pi/.local/share/virtualenvs/heroku_idler-Y8-KEVQ5/bin/python -m herokuidler ping
+*/15 6-23,0 * * * cd /home/pi/Desktop/heroku_idler && /home/pi/.local/share/virtualenvs/heroku_idler-Y8-KEVQ5/bin/python -m herokuidler ping
 ```
 <p align="center">
 <img height="300" src="images/idler_pi.png" alt="pidler" />
@@ -130,6 +141,7 @@ In my case the worker runs on my raspberry pi it has way better uptime than my l
 So add your billing information and just like that you have 1000 hours of free dyno use a month!
 
 Do the math: `31 days x 24 hours = 744 hours` which is less than the 1000 hrs so we can have a free dyno that runs all the time for free to do what we want and still have other apps that use the remainder!
+</details>
 
 ## <b>Built with</b>
 - [Typer](https://typer.tiangolo.com/)
@@ -140,7 +152,7 @@ Do the math: `31 days x 24 hours = 744 hours` which is less than the 1000 hrs so
 
 ## <b>Todo</b>
 - [ ] Logging
-- [ ] Add a sleep functionality lol to manage quota for many apps 
+- [ ] Add a sleep functionality for known low-use periods (ie, overnight) lol to manage quota for many apps 
 
 ## <b>License</b>
 [![license](https://img.shields.io/badge/License-Beerware-yellowgreen)](LICENSE)
