@@ -4,6 +4,10 @@
 
 Heroku Idler is a python typer cli application that manages a url list of your heroku applications running on [free dynos](https://devcenter.heroku.com/articles/free-dyno-hours) you can then ping these apps every 15 minutes so they never go to sleep and avoid long dyno wake-up time. The CLI is based on [Typer](https://typer.tiangolo.com/), a modern and versatile library for creating CLI applications.
 
+<p align="center">
+<img src="images/demo.svg">
+</p>
+
 ## <b>Prerequisites</b>
 - [Python](https://www.python.org/downloads/)
 
