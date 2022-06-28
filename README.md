@@ -48,58 +48,6 @@ The application provides the following commands to initialize the app,add and re
 | remove [URL_ID]            	| Removes a URL from storage by id                           	|
 | ping                       	| Pings the URLs present in the JSON storage                 	|
 
-
-```bash
-# Show a user-friendly help message for usage of the application
-$ python -m herokuidler --help
-Usage: herokuidler [OPTIONS] COMMAND [ARGS]...
-
-Options:
-  --install-completion  Install completion for the current shell.
-  --show-completion     Show completion for the current shell, to copy it or
-                        customize the installation.
-  --help                Show this message and exit.
-
-Commands:
-  add     Add a new url
-  init    Initialize the url json storage
-  list    List all urls
-  ping    Ping all urls
-  remove  Remove a url using its id
-
-# Initialize the app
-$ python -m herokuidler init
-use this as the url json storage location? [/home/daniel/.daniel_urls.json]: 
-The urls json storage is /home/daniel/.daniel_urls.json
-
-# Run tests
-$ python -m pytest -v
-
-# Add a url
-$ python -m herokuidler add https://gentle-dusk-50795.herokuapp.com/ping
-URL: "https://gentle-dusk-50795.herokuapp.com/ping" was added
-
-# list all urls
-$ python -m herokuidler list
-
-Url list:
-
-ID. | Url 
---------------------------------------------------
-1   | https://gentle-dusk-50795.herokuapp.com/ping
-
-# Remove a url by its id
-$ python -m herokuidler remove 1
-Delete url #1: https://gentle-dusk-50795.herokuapp.com/ping? [y/N]: y
-url #1: 'https://gentle-dusk-50795.herokuapp.com/ping' was removed
-
-# Ping all the urls added
-$ python -m herokuidler ping
-Pinging url# 1: https://gentle-dusk-50795.herokuapp.com/ping
-https://gentle-dusk-50795.herokuapp.com/ping responded with : 200
-Pinging url# 2: https://fastapi-dan.herokuapp.com/
-https://fastapi-dan.herokuapp.com/ responded with : 200
-```
 </details>
 
 ## <b>Scheduling</b>
